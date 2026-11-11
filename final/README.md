@@ -12,17 +12,17 @@ final/
 └── nav_plugins/           自定义 PID 控制器（pluginlib 插件）
 ```
 
-| 目录 | 里面是什么 |
-|---|---|
-| `robot_description/urdf/` | fishbot 的 xacro：底盘、轮子、万向轮、激光、相机、IMU |
-| `robot_description/worlds/` | `warehouse_classic.world`，36 个箱子当障碍 |
-| `robot_description/launch/nav_sim.launch.py` | 起 Gazebo + 机器人 + TF + 速度看门狗 |
-| `robot_description/scripts/` | `odom_tf_broadcaster.py` 发 TF，`cmd_vel_watchdog.py` 3 秒没指令就刹车 |
-| `nav_bringup/src/nav_bringup/config/nav2_params.yaml` | 全部 Nav2 参数 |
-| `nav_bringup/src/nav_bringup/maps/nav_start.yaml` | 用的地图，0.03 m 一格，997×798 |
-| `nav_bringup/src/nav_bringup/behavior_trees/pid_follow_path.xml` | 用自定义控制器替换默认 FollowPath |
-| `nav_bringup/src/nav_bringup/rviz/nav2.rviz` | RViz 布局 |
-| `nav_plugins/controller/` | PID 控制器插件，`controller/PidController` |
+| 目录                                                             | 里面是什么                                                             |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `robot_description/urdf/`                                        | fishbot 的 xacro：底盘、轮子、万向轮、激光、相机、IMU                  |
+| `robot_description/worlds/`                                      | `warehouse_classic.world`，36 个箱子当障碍                             |
+| `robot_description/launch/nav_sim.launch.py`                     | 起 Gazebo + 机器人 + TF + 速度看门狗                                   |
+| `robot_description/scripts/`                                     | `odom_tf_broadcaster.py` 发 TF，`cmd_vel_watchdog.py` 3 秒没指令就刹车 |
+| `nav_bringup/src/nav_bringup/config/nav2_params.yaml`            | 全部 Nav2 参数                                                         |
+| `nav_bringup/src/nav_bringup/maps/nav_start.yaml`                | 用的地图，0.03 m 一格，997×798                                         |
+| `nav_bringup/src/nav_bringup/behavior_trees/pid_follow_path.xml` | 用自定义控制器替换默认 FollowPath                                      |
+| `nav_bringup/src/nav_bringup/rviz/nav2.rviz`                     | RViz 布局                                                              |
+| `nav_plugins/controller/`                                        | PID 控制器插件，`controller/PidController`                             |
 
 ## RViz 配置说明
 
@@ -75,7 +75,7 @@ source install/setup.bash
 
 开两个终端：一个起仿真，一个起 Nav2。具体命令见下面「古法启动」。
 
-## 古法启动（手动，开三个终端）
+## 古法启动
 
 **每个终端都要先 source**，少一步就报 `Package not found`。
 
@@ -107,7 +107,7 @@ ros2 launch nav_bringup nav_bringup.launch.py rviz:=true
 
 `rviz:=true` 是开 RViz；不带这个参数就不开 RViz，只起 Nav2。
 
-### 终端 3（可选）：查状态
+### 终端 3：查状态
 
 ```bash
 source /opt/ros/humble/setup.bash
@@ -124,11 +124,20 @@ ros2 topic echo /map --once --field info.resolution
 ## 发目标点
 
 1. 等所有 Nav2 节点变成 `active`（终端里会刷 `[map_server-1] ... active`）
-2. RViz 工具栏点 **「Nav2 Goal」**
+2. RViz 工具栏点 **「2D Goal Pose」** 或 **「Nav2 Goal」**
 3. 在地图空地上点一下 → 拖一下定车头方向 → 松手
 4. 车会规划路径并开过去
 
-**不要用「2D Goal Pose」**，那个发的是 `/goal_pose`，这个工程里没有节点订阅它，点了没反应。
+两个按钮都能用，都往 `/goal_pose` 发：
+
+| 按钮 | 谁提供的 | 发到 |
+|---|---|---|
+| 2D Goal Pose | RViz 自带的 `SetGoal` | `/goal_pose` |
+| Nav2 Goal | `nav2_rviz_plugins` 的 `GoalTool` | `/goal_pose` |
+
+`bt_navigator` 订阅了 `/goal_pose`，所以点哪个都能触发导航。
+区别只是顺手程度：2D Goal Pose 是 RViz 原生的，点完就走；
+Nav2 Goal 和右侧 Navigation2 面板联动，适合连续发多个点、中途暂停取消。
 
 ## 看到什么算成功
 
@@ -144,19 +153,20 @@ ros2 topic echo /map --once --field info.resolution
 
 ## 关键参数在哪
 
-| 想改什么 | 改哪里 | 默认值 |
-|---|---|---|
-| 速度上限 | `nav2_params.yaml` 里 `velocity_smoother` 的 `max_velocity` | `[0.26, 0.0, 1.0]` |
-| 障碍膨胀 | 两个 costmap 的 `inflation_radius` | `0.30` |
-| 车半径 | `robot_radius` | `0.15` |
-| 地图 | `nav_start.yaml` / 换图改 `map` | 0.03 m/格，997×798 |
-| 用哪个控制器 | `controller_plugins` | `FollowPath` 和 `PidController` |
-| 用哪棵行为树 | `default_nav_to_pose_bt_xml` | `pid_follow_path.xml` |
+| 想改什么     | 改哪里                                                      | 默认值                          |
+| ------------ | ----------------------------------------------------------- | ------------------------------- |
+| 速度上限     | `nav2_params.yaml` 里 `velocity_smoother` 的 `max_velocity` | `[0.26, 0.0, 1.0]`              |
+| 障碍膨胀     | 两个 costmap 的 `inflation_radius`                          | `0.30`                          |
+| 车半径       | `robot_radius`                                              | `0.15`                          |
+| 地图         | `nav_start.yaml` / 换图改 `map`                             | 0.03 m/格，997×798              |
+| 用哪个控制器 | `controller_plugins`                                        | `FollowPath` 和 `PidController` |
+| 用哪棵行为树 | `default_nav_to_pose_bt_xml`                                | `pid_follow_path.xml`           |
 
 ## 踩坑
 
 1. **不 source 就找不到包**：每个新终端都要 `source install/setup.bash`。
 2. **建图和导航不能同时开**：两边都发 `map→odom`，TF 会来回跳，车在地图上乱飘。
-3. **`2D Goal Pose` 没用**，要用「Nav2 Goal」。
+3. **点了目标没反应**：先看 Nav2 节点是不是都 `active`，
+   再确认 `ros2 topic info /goal_pose` 的订阅者里有 `bt_navigator`。
 4. **仿真起太快 Nav2 会等不到 TF**：起完仿真等 20 秒再起 Nav2。
 5. **改了代码不重新 `colcon build`**，跑的还是在 `install/` 里的旧版本。
