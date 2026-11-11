@@ -174,23 +174,22 @@ Nav2 Goal 和右侧 Navigation2 面板联动，适合连续发多个点、中途
 
 ## 演示视频
 
-`演示视频.mp4`：1 分 05 秒，1600×1000，H.264，4.6 MB。
+`演示视频.mp4`：1280×800，H.264，2.2 MB，1 分 05 秒。
 
-录的时候仿真和 Nav2 已经起来了，画面里是 **Gazebo 和 RViz 并排**：
+> 选这个尺寸是为了能在 GitHub 网页上直接点开播放（文件超过 4 MB 页面就不给预览了）。
+> 本地还留了一版 1600×1000 的，画面更清楚，需要的话再传。
 
-- RViz 左边 `Displays` 一栏能看到各层的开关状态
+录的时候仿真和 Nav2 已经起来了，画面是 Gazebo 和 RViz 并排：
+
+- RViz 左边 `Displays` 能看到各层的开关
 - 中间是地图、激光点和规划出来的路径
-- 左下方 `Navigation 2` 面板显示 Navigation / Localization 的状态、ETA、剩余距离
+- 左下 `Navigation 2` 面板显示 Navigation / Localization 状态、ETA、剩余距离
 - Gazebo 那边能看到小车在仓库里走
 
-**不是从零启动的录像**，启动命令看上面「古法启动」那一节。
+**不是从零启动的录像**，启动命令看上面「古法启动」。
 
-看的时候直接下载打开，或者：
+系统打不开 mp4 的话，装一下 H.264 解码器：
 
 ```bash
-ffplay 演示视频.mp4
+sudo apt install gstreamer1.0-libav
 ```
-
-> 系统如果打不开 mp4，装一下 H.264 解码器：`sudo apt install gstreamer1.0-libav`
-
-遇到问题先翻 [常见问题.md](常见问题.md)。
