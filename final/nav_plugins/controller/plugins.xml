@@ -1,0 +1,7 @@
+<library path="controller">
+  <class name="controller/PidController"
+         type="PidController"
+         base_class_type="nav2_core::Controller">
+    <description>PID pure-pursuit controller</description>
+  </class>
+</library>

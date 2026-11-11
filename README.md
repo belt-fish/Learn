@@ -16,7 +16,8 @@ robo/
 ├── opencv_armor/                 OpenCV 进阶：装甲板灯条识别
 ├── robot_control/                动作控制系统（C++）
 ├── robot_control_py/             动作控制系统（Python）
-└── ros2_inspection/              巡检机器人（ROS 2）
+├── ros2_inspection/              巡检机器人（ROS 2）
+└── final/                        最终验收：导航（仿真 + Nav2 + RViz）
 ```
 
 ## 笔记目录
@@ -51,6 +52,7 @@ robo/
 | [动作控制系统](robot_control) | [2.2](2.2_part.md) | C++ / CMake | `./build/a_exe` | 完成 |
 | [动作控制系统（Python）](robot_control_py) | [2.3](2.3_part.md) | Python | `python3 main.py` | 完成 |
 | [巡检机器人](ros2_inspection) | [2.4](2.4_part.md) | ROS 2 / C++ | `ros2 launch inspection_bringup inspection.launch.py` | 完成 |
+| [**最终验收：导航**](final) | [5.2](5.2_part.md) | ROS 2 / Gazebo | 见 `final/README.md` 的古法启动 | 完成 |
 |  |  |  |  |  |
 |  |  |  |  |  |
 
