@@ -54,7 +54,8 @@ robo/
 | [巡检机器人](ros2_inspection) | [2.4](2.4_part.md) | ROS 2 / C++ | `ros2 launch inspection_bringup inspection.launch.py` | 完成 |
 | [**最终验收：导航**](final) | [5.2](5.2_part.md) | ROS 2 / Gazebo | 见 `final/README.md` 的古法启动 | 完成 |
 
-> 最终验收的演示视频在 [`final/演示视频.mp4`](final/演示视频.mp4)（4.6 MB），录的是启动到导航到点的全过程。
+> 最终验收的演示视频在 [`final/演示视频.mp4`](final/演示视频.mp4)（4.6 MB），录的是导航运行中的画面。
+> 踩过的坑和排查命令整理在 [`final/常见问题.md`](final/常见问题.md)。
 |  |  |  |  |  |
 |  |  |  |  |  |
 

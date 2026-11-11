@@ -7,6 +7,7 @@
 ```
 final/
 ├── README.md
+├── 常见问题.md            踩过的坑和排查命令
 ├── robot_description/     机器人和仿真：URDF、world、两个辅助节点
 ├── nav_bringup/           Nav2 参数、行为树、地图、RViz 配置、launch
 └── nav_plugins/           自定义 PID 控制器（pluginlib 插件）
@@ -173,12 +174,23 @@ Nav2 Goal 和右侧 Navigation2 面板联动，适合连续发多个点、中途
 
 ## 演示视频
 
-`演示视频.mp4`：从头启动仿真和 Nav2，然后在地图上点目标点，车自己开过去。
+`演示视频.mp4`：1 分 05 秒，1600×1000，H.264，4.6 MB。
 
-文件 4.6 MB，1600×1000，H.264，1 分 05 秒。
+录的时候仿真和 Nav2 已经起来了，画面里是 **Gazebo 和 RViz 并排**：
 
-看的时候直接下载打开就行，或者命令行：
+- RViz 左边 `Displays` 一栏能看到各层的开关状态
+- 中间是地图、激光点和规划出来的路径
+- 左下方 `Navigation 2` 面板显示 Navigation / Localization 的状态、ETA、剩余距离
+- Gazebo 那边能看到小车在仓库里走
+
+**不是从零启动的录像**，启动命令看上面「古法启动」那一节。
+
+看的时候直接下载打开，或者：
 
 ```bash
 ffplay 演示视频.mp4
 ```
+
+> 系统如果打不开 mp4，装一下 H.264 解码器：`sudo apt install gstreamer1.0-libav`
+
+遇到问题先翻 [常见问题.md](常见问题.md)。
