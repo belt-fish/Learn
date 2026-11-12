@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """由 ROS 节点发布 odom -> base_footprint
 
 原来由 Gazebo 的差速驱动插件发，它盖的时间戳会倒退，
